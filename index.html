@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebOS Emulator</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Alumni+Sans+Pinstripe&family=Lexend+Deca&family=Poiret+One&family=Tektur:wght@400..900&display=swap');
+        body {
+                font-family: 'Roboto', sans-serif;
+                margin: 0;
+                color: #fff;
+                cursor: none;
+                overflow: hidden; /* Prevent scrolling */
+            }
+            
+        #video-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: black;
+            z-index: 9999;
+        }
+        #video-container video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        #content {
+            display: none; /* Скрываем основной контент */
+        }
+        .custom-cursor {
+                position: absolute;
+                top: 50%; /* Позиция по вертикали */
+                left: 50%; /* Позиция по горизонтали */
+                width: 64px; /* Ширина курсора */
+                height: 64px; /* Высота курсора */
+                background-image: url('cursour.png');
+                background-size: cover;
+                pointer-events: none; /* Игнорировать взаимодействие с элементами */
+                z-index: 9999;
+            }
+            a {
+                cursor: none; /* Отключаем стандартный курсор */
+            }
+    
+            a:hover {
+                cursor: none; /* Убираем стандартный курсор на hover */
+            }
+            #background-video {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                z-index: -1; /* Make sure the video is behind other content */
+                cursor: url('cursour.png');
+            }
+            .overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.5); /* Adjust opacity as needed */
+                z-index: 0; /* Ensure it's above the video but below other content */
+                cursor: url('cursour.png');
+            }
+            .header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 20px;
+                background-color: rgba(0, 0, 0, 0.65);
+                position: relative;
+                z-index: 1; /* Ensure header is above the overlay */
+                cursor: url('cursour.png');
+            }
+            .header .logo {
+                font-size: 24px;
+                font-weight: 700;
+                cursor: url('cursour.png');
+            }
+          
+            .nav {
+                display: flex;
+                justify-content: center;
+                background-color: rgba(0, 0, 0, 0.35);
+                padding: 10px 0;
+                cursor: url('cursour.png');
+            }
+            .nav a {
+                color: #fff;
+                text-decoration: none;
+                padding: 10px 20px;
+                margin: 0 10px;
+                border-radius: 5px;
+                background-color: rgba(0, 0, 0, 0.35);
+                cursor: url('cursour.png');
+            }
+            .nav a:hover {
+                background-color: rgba(0, 0, 0, 0.35);
+                cursor: url('cursour.png');
+            }
+            .content {
+                padding: 20px;
+                position: relative;
+                z-index: 1; /* Ensure content is above the overlay */
+                cursor: url('cursour.png');
+            }
+            .content .section {
+                margin-bottom: 40px;
+                cursor: url('cursour.png');
+                font-family: "Tektur", sans-serif;
+            }
+            .content .section h2 {
+                margin-bottom: 20px;
+                cursor: url('cursour.png');
+                font-family: "Tektur", sans-serif;
+            }
+            .content .section .items {
+                display: flex;
+                flex-wrap: wrap;
+                cursor: url('cursour.png');
+                font-family: "Tektur", sans-serif;
+            }
+            .content .section .item {
+                width: 200px;
+                margin: 10px;
+                text-align: center;
+                transition: transform 0.3s ease;
+                cursor: url('cursour.png');
+                font-family: "Tektur", sans-serif;
+                font-size: 20px;
+            }
+            .content .section .item:hover {
+                transform: scale(1.05);
+                cursor: url('cursour.png');
+                font-family: "Tektur", sans-serif;
+            }
+            .content .section .item img {
+                width: 100%;
+                border-radius: 10px;
+                cursor: url('cursour.png');
+            }
+            .content .section .item p {
+                margin-top: 10px;
+                font-family: "Tektur", sans-serif;
+            }
+            /* Темная тема */
+            body.dark-theme {
+                background-color: #121212;
+                color: #fff;
+            }
+            /* Светлая тема */
+            body.light-theme {
+                background-color: #f9f9f9;
+                color: #000;
+            }
+            .header, .nav {
+        position: relative;
+        z-index: 2; /* Задайте больший z-index для этих элементов */
+    }
+    
+    .p {
+      cursor: url('cursour.png');
+    }
+    
+    .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 1; /* Убедитесь, что overlay имеет z-index меньше, чем у кнопок */
+        cursor: url('cursour.png');
+    }
+    
+    
+      #zagolovok {
+        font-family: "Poiret One", serif;
+        font-size: 24px;
+        font-weight: 700; /* Сделаем заголовки жирными */
+        color: white;
+        margin-bottom: 10px;
+        cursor: url('cursour.png');
+      }
+    
+      .navi {
+        margin-right: 150px;
+        cursor: url('cursour.png');
+        display: flex;
+        flex-wrap: wrap;
+        align-content: flex-start;
+        font-size: 26px;
+        font-family: "Lexend Deca", sans-serif;
+        text-decoration: none; /* Убираем подчеркивание */
+        color: inherit; 
+    
+      }
+    </style>
+</head>
+<body>
+    <!-- Видео-заставка -->
+    <div id="video-container">
+        <video autoplay muted id="intro-video">
+            <source src="zastavka.mp4" type="video/mp4">
+            Ваш браузер не поддерживает видео.
+        </video>
+    </div>
+
+    <!-- Основной контент -->
+    <div class="custom-cursor"></div>
+    
+    <script>
+        const cursor = document.querySelector('.custom-cursor');
+
+        window.addEventListener('mousemove', function(e) {
+            cursor.style.top = `${e.clientY}px`;
+            cursor.style.left = `${e.clientX}px`;
+        });
+    </script>
+    <video autoplay muted loop id="background-video">
+        <source src="backgroundvideo.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    <div class="overlay"></div>
+    <div class="header">
+        <div class="logo">
+            <img src="webos.png" style="height: 42px; width: auto;" alt="webos logo">
+        </div>
+        <a class='navi' href="home.html">Home</a>
+        <a class='navi'  href="#">Live TV</a>
+        <a  class='navi' href="movies.html">Movies</a>
+        <a class='navi'  href="tvshows.html">TV Shows</a>
+        <a  class='navi' href="apps.html">Apps</a>
+        <a  class='navi' href="#">Settings</a>
+        <a  class='navi' href="https://www.google.com">Browser</a>
+      </div>
+    </div>
+        </div>
+    <div class="content">
+        <div class="section">
+            <h2 id="zagolovok">Featured Movies</h2>
+            <div class="items">
+                <div class="item">
+                    <img alt="Movie 1 Poster" height="300" onclick="window.location.href='https://kinogo.ec/116553-klub-otdyha.html'" src="https://kinogo.ec/uploads/mini/minifull/f59/1733828406-klub-otdyha.webp" width="200"/>
+                    <p>Клуб отдыха (2024)</p>
+                </div>
+                <div class="item">
+                    <img alt="Movie 2 Poster" height="300" onclick="window.location.href='https://kinogo.ec/116613-nochnoj-dobrodetel.html'" src="https://kinogo.ec/uploads/mini/minifull/8f9/1734180352-nochnoj-dobrodetel.webp" width="200"/>
+                    <p>Ночной добродетель (2024)</p>
+                </div>
+                <div class="item">
+                    <img alt="Movie 3 Poster" height="300" onclick="window.location.href='https://kinogo.ec/116614-vyshibala.html'" src="https://kinogo.ec/uploads/mini/minifull/c9f/1733990562-vyshibala.webp" width="200"/>
+                    <p>Вышибала (2024)</p>
+                </div>
+                <div class="item">
+                    <img alt="Movie 4 Poster" height="300" onclick="window.location.href='https://kinogo.ec/116611-kanun-dnja-vseh-svjatyh-inferno.html'" src="https://kinogo.ec/uploads/mini/minifull/292/1733990542-kanun-dnja-vseh-svjatyh-inferno.webp" width="200"/>
+                    <p>Канун Дня всех святых: Инферно (2024)</p>
+                </div>
+                <div class="item">
+                    <img alt="https://kinogo.ec/116607-oploshnost.html" height="300" onclick="window.location.href='movie5.html'" src="https://kinogo.ec/uploads/mini/minifull/0c1/1733990520-oploshnost.webp" width="200"/>
+                    <p>Оплошность (2023)</p>
+                </div>
+                <div class="item">
+                    <img alt="Movie 6 Poster" height="300" onclick="window.location.href='https://kinogo.ec/116663-vozvraschaja-rozhdestvo.html'" src="https://kinogo.ec/uploads/mini/minifull/b3a/1734170439-vozvraschaja-rozhdestvo.webp" width="200"/>
+                    <p>Возвращая Рождество (2023)</p>
+                </div>
+                <div class="item">
+                    <img alt="Movie 7 Poster" height="300" onclick="window.location.href='https://kinogo.ec/116664-domashnee-rozhdestvo.html'" src="https://kinogo.ec/uploads/mini/minifull/370/1734170446-domashnee-rozhdestvo.webp" width="200"/>
+                    <p>Домашнее Рождество</p>
+                </div>
+                <div class="item">
+                    <img alt="Movie 8 Poster" height="300" onclick="window.location.href='https://kinogo.ec/113305-o-kanada.html'" src="https://kinogo.ec/uploads/mini/minifull/6a7/1722331594-500639262.webp" width="200"/>
+                    <p>О, Канада (2024)</p>
+                </div>
+                <div class="item">
+                    <img alt="Movie 9 Poster" height="300" onclick="window.location.href='https://kinogo.ec/116638-luchshee-rozhdestvenskoe-predstavlenie-na-svete.html'" src="https://kinogo.ec/uploads/mini/minifull/506/1734098511-1474312801.webp" width="200"/>
+                    <p>Лучшее Рождественское представление на свете (2024)</p>
+                </div>
+                <div class="item">
+                    <img alt="Movie 10 Poster" height="300" onclick="window.location.href='https://kinogo.ec/116656-grjaznye-angely.html'" src="https://kinogo.ec/uploads/mini/minifull/355/1734134500-1682370266.webp" width="200"/>
+                    <p>Грязные ангелы (2024)</p>
+                </div>
+                <div class="item">
+                    <img alt="Movie 11 Poster" height="300" onclick="window.location.href='https://kinogo.ec/116658-dom-s-prividenijami.html'" src="https://kinogo.ec/uploads/mini/minifull/ddd/1734152483-429793490.webp" width="200"/>
+                    <p>Дом с привидениями (2024)</p>
+                </div>
+                <div class="item">
+                    <img alt="Movie 12 Poster" height="300" onclick="window.location.href='https://kinogo.ec/111333-na-linii.html'" src="https://kinogo.ec/uploads/mini/minifull/39b/1716233002-na-linii.webp" width="200"/>
+                    <p>На линии (2022)</p>
+                </div>
+                <div class="item">
+                    <img alt="Movie 13 Poster" height="300" onclick="window.location.href='https://kinogo.ec/12096-puteshestvie-2-tainstvennyj-ostrov.html'" src="https://kinogo.ec/uploads/mini/minifull/a44/1585375298-461492979.webp" width="200"/>
+                    <p>Путешествие 2: Таинственный остров (2012)</p>
+                </div>
+                <div class="item">
+                    <img alt="Movie 14 Poster" height="300" onclick="window.location.href='https://kinogo.ec/20500-hatiko-samyj-vernyj-drug.html'" src="https://kinogo.ec/uploads/mini/minifull/dec/1585436863-1809513839.webp" width="200"/>
+                    <p>Хатико: Самый верный друг (2009)</p>
+                </div>
+                <div class="item">
+                    <img alt="Movie 15 Poster" height="300" onclick="window.location.href='https://kinogo.ec/15821-11.html'" src="https://kinogo.ec/uploads/mini/minifull/717/1585402164-1202531922.webp" width="200"/>
+                    <p>1+1 (2011)
+                    </p>
+                </div>
+                <div class="item">
+                    <img alt="Movie 15 Poster" height="300" onclick="window.location.href='https://kinogo.ec/112347-mufasa-korol-lev.html'" src="https://kinogo.ec/uploads/mini/minifull/7ef/1733163050-mufasa-korol-lev.webp" width="200"/>
+                    <p> Муфаса: Король лев (2024)
+                    </p>
+                </div>
+                <div class="item">
+                    <img alt="Movie 15 Poster" height="300" onclick="window.location.href='https://kinogo.ec/116354-moana-2.html'" src="https://kinogo.ec/uploads/mini/minifull/c9b/1733073136-moana-2.webp" width="200"/>
+                    <p> Моана 2 (2024)
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <script>
+        const video = document.getElementById('intro-video');
+        const videoContainer = document.getElementById('video-container');
+        const content = document.getElementById('content');
+
+        // Событие, когда видео закончилось
+        video.addEventListener('ended', () => {
+            videoContainer.style.display = 'none'; // Скрываем контейнер с видео
+            content.style.display = 'block'; // Показываем основной контент
+            document.body.style.overflow = 'auto'; // Включаем прокрутку
+        });
+
+        // Если нужно отключать видео через таймер
+        setTimeout(() => {
+            videoContainer.style.display = 'none';
+            content.style.display = 'block';
+            document.body.style.overflow = 'auto';
+        }, 7500); // Таймер в миллисекундах (8 секунд)
+    </script>
+</body>
+</html>
