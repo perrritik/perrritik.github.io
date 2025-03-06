@@ -1,184 +1,258 @@
-@import url('https://fonts.googleapis.com/css2?family=Alumni+Sans+Pinstripe&family=Lexend+Deca&family=Poiret+One&family=Tektur:wght@400..900&display=swap');
-   body {
-       font-family: 'Roboto', sans-serif;
-       margin: 0;
-       color: #fff;
-       cursor: none;
-       overflow: hidden; /* Prevent scrolling */
-   }
-
-   .custom-cursor {
-       position: absolute;
-       top: 50%; /* Позиция по вертикали */
-       left: 50%; /* Позиция по горизонтали */
-       width: 64px; /* Ширина курсора */
-       height: 64px; /* Высота курсора */
-       background-image: url('cursour.png');
-       background-size: cover;
-       pointer-events: none; /* Игнорировать взаимодействие с элементами */
-       z-index: 9999;
-   }
-   a {
-       cursor: none; /* Отключаем стандартный курсор */
-   }
-
-   a:hover {
-       cursor: none; /* Убираем стандартный курсор на hover */
-   }
-   #background-video {
-       position: fixed;
-       top: 0;
-       left: 0;
-       width: 100%;
-       height: 100%;
-       object-fit: cover;
-       z-index: -1; /* Make sure the video is behind other content */
-       cursor: url('cursour.png');
-   }
-   .overlay {
-       position: fixed;
-       top: 0;
-       left: 0;
-       width: 100%;
-       height: 100%;
-       background: rgba(0, 0, 0, 0.5); /* Adjust opacity as needed */
-       z-index: 0; /* Ensure it's above the video but below other content */
-       cursor: url('cursour.png');
-   }
-   .header {
-       display: flex;
-       justify-content: space-between;
-       align-items: center;
-       padding: 20px;
-       background-color: rgba(0, 0, 0, 0.65);
-       position: relative;
-       z-index: 1; /* Ensure header is above the overlay */
-       cursor: url('cursour.png');
-   }
-   .header .logo {
-       font-size: 24px;
-       font-weight: 700;
-       cursor: url('cursour.png');
-   }
- 
-   .nav {
-       display: flex;
-       justify-content: center;
-       background-color: rgba(0, 0, 0, 0.35);
-       padding: 10px 0;
-       cursor: url('cursour.png');
-   }
-   .nav a {
-       color: #fff;
-       text-decoration: none;
-       padding: 10px 20px;
-       margin: 0 10px;
-       border-radius: 5px;
-       background-color: rgba(0, 0, 0, 0.35);
-       cursor: url('cursour.png');
-   }
-   .nav a:hover {
-       background-color: rgba(0, 0, 0, 0.35);
-       cursor: url('cursour.png');
-   }
-   .content {
-       padding: 20px;
-       position: relative;
-       z-index: 1; /* Ensure content is above the overlay */
-       cursor: url('cursour.png');
-   }
-   .content .section {
-       margin-bottom: 40px;
-       cursor: url('cursour.png');
-       font-family: "Tektur", sans-serif;
-   }
-   .content .section h2 {
-       margin-bottom: 20px;
-       cursor: url('cursour.png');
-       font-family: "Tektur", sans-serif;
-   }
-   .content .section .items {
-       display: flex;
-       flex-wrap: wrap;
-       cursor: url('cursour.png');
-       font-family: "Tektur", sans-serif;
-   }
-   .content .section .item {
-       width: 200px;
-       margin: 10px;
-       text-align: center;
-       transition: transform 0.3s ease;
-       cursor: url('cursour.png');
-       font-family: "Tektur", sans-serif;
-       font-size: 20px;
-   }
-   .content .section .item:hover {
-       transform: scale(1.05);
-       cursor: url('cursour.png');
-       font-family: "Tektur", sans-serif;
-   }
-   .content .section .item img {
-       width: 100%;
-       border-radius: 10px;
-       cursor: url('cursour.png');
-   }
-   .content .section .item p {
-       margin-top: 10px;
-       font-family: "Tektur", sans-serif;
-   }
-   /* Темная тема */
-   body.dark-theme {
-       background-color: #121212;
-       color: #fff;
-   }
-   /* Светлая тема */
-   body.light-theme {
-       background-color: #f9f9f9;
-       color: #000;
-   }
-   .header, .nav {
-position: relative;
-z-index: 2; /* Задайте больший z-index для этих элементов */
+:root {
+    --cursor-size: 64px;
+    --cursor-image: url('cursour.png');
+    --overlay-bg: rgba(0, 0, 0, 0.5);
+    --header-bg: rgba(0, 0, 0, 0.65);
+    --nav-bg: rgba(0, 0, 0, 0.35);
+    --nav-item-bg: rgba(0, 0, 0, 0.35);
+    --font-main: 'Roboto', sans-serif;
+    --font-section: "Tektur", sans-serif;
+    --font-logo: "Poiret One", serif;
+    --font-nav: "Lexend Deca", sans-serif;
+    --font-heading-size: 30px;
+    --font-nav-size: 26px;
+    --z-index-header: 2;
+    --z-index-overlay: 1;
+    --z-index-custom-cursor: 9999;
 }
 
-.p {
-cursor: url('cursour.png');
+body {
+    font-family: var(--font-main);
+    margin: 0;
+    color: #fff;
+    cursor: none;
+    overflow: hidden;
+}
+
+.custom-cursor {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: var(--cursor-size);
+    height: var(--cursor-size);
+    background-image: var(--cursor-image);
+    background-size: cover;
+    pointer-events: none;
+    z-index: var(--z-index-custom-cursor);
+}
+
+a {
+    cursor: none;
+}
+
+a:hover {
+    cursor: none;
+}
+
+#background-video {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+    cursor: var(--cursor-image);
 }
 
 .overlay {
-position: fixed;
-top: 0;
-left: 0;
-
-width: 100%;
-height: 100%;
-background: rgba(0, 0, 0, 0.5);
-z-index: 1; /* Убедитесь, что overlay имеет z-index меньше, чем у кнопок */
-cursor: url('cursour.png');
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--overlay-bg);
+    z-index: var(--z-index-overlay);
+    cursor: var(--cursor-image);
 }
 
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: var(--header-bg);
+    position: relative;
+    z-index: var(--z-index-header);
+    cursor: var(--cursor-image);
+}
+
+.header .logo {
+    font-size: 24px;
+    font-weight: 700;
+    cursor: var(--cursor-image);
+    font-family: var(--font-logo);
+}
+
+.nav {
+    display: flex;
+    justify-content: center;
+    background-color: var(--nav-bg);
+    padding: 10px 0;
+    cursor: var(--cursor-image);
+}
+
+.nav a {
+    color: #fff;
+    text-decoration: none;
+    padding: 10px 20px;
+    margin: 0 10px;
+    border-radius: 5px;
+    background-color: var(--nav-item-bg);
+    cursor: var(--cursor-image);
+}
+
+.nav a:hover {
+    background-color: var(--nav-item-bg);
+    cursor: var(--cursor-image);
+}
+
+.content {
+    padding: 20px;
+    position: relative;
+    z-index: 1;
+    cursor: var(--cursor-image);
+}
+
+.content .section {
+    margin-bottom: 40px;
+    font-family: var(--font-section);
+    cursor: var(--cursor-image);
+}
+
+.content .section h2 {
+    margin-bottom: 20px;
+    font-family: var(--font-section);
+    cursor: var(--cursor-image);
+}
+
+.content .section .items {
+    display: flex;
+    flex-wrap: wrap;
+    cursor: var(--cursor-image);
+    font-family: var(--font-section);
+}
+
+.content .section .item {
+    width: 200px;
+    margin: 10px;
+    text-align: center;
+    transition: transform 0.3s ease;
+    cursor: var(--cursor-image);
+    font-family: var(--font-section);
+    font-size: 20px;
+}
+
+.content .section .item:hover {
+    transform: scale(1.05);
+    cursor: var(--cursor-image);
+}
+
+.content .section .item img {
+    width: 100%;
+    border-radius: 10px;
+    cursor: var(--cursor-image);
+}
+
+.content .section .item p {
+    margin-top: 10px;
+    font-family: var(--font-section);
+}
+
+body.dark-theme {
+    background-color: #121212;
+    color: #fff;
+}
+
+body.light-theme {
+    background-color: #f9f9f9;
+    color: #000;
+}
+
+.header, .nav {
+    position: relative;
+    z-index: var(--z-index-header);
+}
+
+.p {
+    cursor: var(--cursor-image);
+}
 
 #zagolovok {
-font-family: "Poiret One", serif;
-font-size: 30px;
-font-weight: 700; /* Сделаем заголовки жирными */
-color: white;
-margin-bottom: 10px;
-cursor: url('cursour.png');
+    font-family: var(--font-logo);
+    font-size: var(--font-heading-size);
+    font-weight: 700;
+    color: white;
+    margin-bottom: 10px;
+    cursor: var(--cursor-image);
 }
 
 .navi {
-margin-right: 150px;
-cursor: url('cursour.png');
-display: flex;
-flex-wrap: wrap;
-align-content: flex-start;
-font-size: 26px;
-font-family: "Lexend Deca", sans-serif;
-transition: transform 0.3s ease-in-out;
-
+    margin-right: 150px;
+    cursor: var(--cursor-image);
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    font-size: var(--font-nav-size);
+    font-family: var(--font-nav);
+    transition: transform 0.3s ease-in-out;
 }
 
 .navi:hover {
-   transform: scale(1.2);
+    transform: scale(1.2);
+}
+
+/* Aдаптивность */
+
+/* Для экранов шириной 768px и меньше */
+@media (max-width: 768px) {
+    .header {
+        padding: 10px;
+    }
+
+    .nav {
+        flex-direction: column;
+    }
+
+    .nav a {
+        margin: 5px 0;
+    }
+
+    .content .section .item {
+        width: 100%;
+        font-size: 18px;
+    }
+
+    .header .logo {
+        font-size: 20px;
+    }
+
+    .content {
+        padding: 10px;
+    }
+}
+
+/* Для экранов шириной 480px и меньше */
+@media (max-width: 480px) {
+    .header {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .nav {
+        padding: 5px 0;
+    }
+
+    .content {
+        padding: 5px;
+    }
+
+    .content .section .item {
+        width: 100%;
+        font-size: 16px;
+    }
+
+    .header .logo {
+        font-size: 18px;
+    }
 }
